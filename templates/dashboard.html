@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">Today at a glance</p>
+        <h2>Royal Dashboard</h2>
+    </div>
+    <div class="today-pill">{{ stats.present }} present • {{ stats.absent }} absent</div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-card gold">
+        <h3>Present</h3>
+        <p>{{ stats.present }}</p>
+    </div>
+    <div class="stat-card purple">
+        <h3>Absent</h3>
+        <p>{{ stats.absent }}</p>
+    </div>
+    <div class="stat-card blue">
+        <h3>Total Students</h3>
+        <p>{{ stats.total_students }}</p>
+    </div>
+</div>
+
+<section class="panel">
+    <div class="panel-head">
+        <h3>Latest attendance activity</h3>
+        <a href="{{ url_for('attendance') }}">Mark attendance</a>
+    </div>
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Register</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in recent %}
+                <tr>
+                    <td>{{ item.full_name }}</td>
+                    <td>{{ item.register_number }}</td>
+                    <td><span class="status {{ item.status }}">{{ item.status }}</span></td>
+                    <td>{{ item.marked_at }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="4">No attendance recorded yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}

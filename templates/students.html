@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">Student control center</p>
+        <h2>Students</h2>
+    </div>
+</div>
+
+<div class="grid-two">
+    <section class="panel">
+        <div class="panel-head">
+            <h3>Add student</h3>
+        </div>
+        <form method="post" class="form-stack">
+            <input type="hidden" name="action" value="add">
+            <label>Full name
+                <input type="text" name="full_name" required>
+            </label>
+            <label>Register number
+                <input type="text" name="register_number" required>
+            </label>
+            <button type="submit">Add student</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head">
+            <h3>Registered students</h3>
+        </div>
+        <div class="student-list">
+            {% for student in students %}
+            <div class="student-card">
+                <div>
+                    <strong>{{ student.full_name }}</strong>
+                    <p>{{ student.register_number }}</p>
+                </div>
+                <form method="post">
+                    <input type="hidden" name="action" value="delete">
+                    <input type="hidden" name="student_id" value="{{ student.id }}">
+                    <button type="submit" class="danger-btn">Remove</button>
+                </form>
+            </div>
+            {% else %}
+            <p>No students added yet.</p>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock %}

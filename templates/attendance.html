@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">Live attendance</p>
+        <h2>Attendance</h2>
+    </div>
+    <div class="today-pill">{{ stats.present }} present • {{ stats.absent }} absent</div>
+</div>
+
+<div class="grid-two">
+    <section class="panel">
+        <div class="panel-head">
+            <h3>Mark attendance</h3>
+        </div>
+        <form method="post" class="form-stack">
+            <label>Register number
+                <input type="text" name="register_number" required>
+            </label>
+            <label>Status
+                <select name="status" required>
+                    <option value="present">Present</option>
+                    <option value="absent">Absent</option>
+                </select>
+            </label>
+            <button type="submit">Save attendance</button>
+        </form>
+    </section>
+
+    <section class="panel">
+        <div class="panel-head">
+            <h3>Recent entries</h3>
+        </div>
+        <div class="table-card">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Status</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in records %}
+                    <tr>
+                        <td>{{ item.full_name }}</td>
+                        <td><span class="status {{ item.status }}">{{ item.status }}</span></td>
+                        <td>{{ item.marked_at }}</td>
+                    </tr>
+                    {% else %}
+                    <tr><td colspan="3">No attendance entries yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+{% endblock %}

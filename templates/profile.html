@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">Admin profile</p>
+        <h2>Profile</h2>
+    </div>
+</div>
+
+<section class="panel profile-card">
+    <div>
+        <h3>Welcome, {{ session.get('username') }}</h3>
+        <p>Your royal attendance center is active and ready for student updates.</p>
+    </div>
+    <div class="profile-metrics">
+        <div class="mini-card">
+            <strong>{{ stats.present }}</strong>
+            <span>Present today</span>
+        </div>
+        <div class="mini-card">
+            <strong>{{ stats.absent }}</strong>
+            <span>Absent today</span>
+        </div>
+    </div>
+</section>
+{% endblock %}

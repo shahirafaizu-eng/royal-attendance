@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">Attendance history</p>
+        <h2>Report</h2>
+    </div>
+</div>
+
+<section class="panel">
+    <div class="panel-head">
+        <h3>All attendance records</h3>
+    </div>
+    <div class="table-card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Student</th>
+                    <th>Register</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in records %}
+                <tr>
+                    <td>{{ item.full_name }}</td>
+                    <td>{{ item.register_number }}</td>
+                    <td>{{ item.attendance_date }}</td>
+                    <td><span class="status {{ item.status }}">{{ item.status }}</span></td>
+                    <td>{{ item.marked_at }}</td>
+                </tr>
+                {% else %}
+                <tr><td colspan="5">No records available.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</section>
+{% endblock %}
