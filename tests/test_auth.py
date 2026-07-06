@@ -3,6 +3,7 @@ import os
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 from auth import authenticate_user, register_user
 from config import Config
@@ -35,6 +36,35 @@ class AuthTests(unittest.TestCase):
         user = authenticate_user('admin', 'admin123')
         self.assertIsNotNone(user)
         self.assertEqual(user['username'], 'admin')
+
+    def test_student_errors_show_safe_message(self):
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = 1
+            sess['username'] = 'admin'
+
+        with patch('app.add_student', side_effect=Exception('boom')):
+            response = self.client.post(
+                '/students',
+                data={'action': 'add', 'full_name': 'Test', 'register_number': '123'},
+                follow_redirects=True,
+            )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('Unable to process student request right now.', response.get_data(as_text=True))
+
+    def test_attendance_errors_show_safe_message(self):
+        with self.client.session_transaction() as sess:
+            sess['user_id'] = 1
+            sess['username'] = 'admin'
+
+        response = self.client.post(
+            '/attendance',
+            data={'register_number': 'missing', 'status': 'present'},
+            follow_redirects=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('No student was found with that register number.', response.get_data(as_text=True))
 
 
 if __name__ == '__main__':

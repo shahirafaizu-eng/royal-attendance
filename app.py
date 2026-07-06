@@ -1,4 +1,5 @@
 from flask import Flask, flash, redirect, render_template, request, session, url_for
+from werkzeug.exceptions import HTTPException
 
 from auth import authenticate_user, create_default_admin, login_required, register_user
 from attendance import get_attendance_records, get_today_stats, mark_attendance
@@ -11,6 +12,26 @@ app.config.from_object(Config)
 
 init_db()
 create_default_admin()
+
+
+@app.errorhandler(HTTPException)
+def handle_http_error(error):
+    if error.code == 404:
+        flash('The page you requested was not found.', 'warning')
+    else:
+        flash('A request error occurred. Please try again.', 'warning')
+    if session.get('user_id'):
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
+
+
+@app.errorhandler(Exception)
+def handle_general_error(error):
+    app.logger.exception('Unhandled application error')
+    flash('Something went wrong. Please try again.', 'danger')
+    if session.get('user_id'):
+        return redirect(url_for('dashboard'))
+    return redirect(url_for('login'))
 
 
 @app.route('/')
@@ -50,7 +71,7 @@ def signup():
         if not username or not password:
             flash('Please complete all signup details.', 'warning')
         elif register_user(username, password):
-            flash('Account created successfully. Please log in.', 'success')
+            flash('Account created successfully. You can log in now.', 'success')
             return redirect(url_for('login'))
         else:
             flash('Username already exists or is invalid.', 'warning')
@@ -72,52 +93,62 @@ def is_admin_user():
 @app.route('/students', methods=['GET', 'POST'])
 @login_required
 def students():
-    if request.method == 'POST':
-        if not is_admin_user():
-            flash('Only the admin account can add or remove students.', 'danger')
-            return redirect(url_for('students'))
+    try:
+        if request.method == 'POST':
+            if not is_admin_user():
+                flash('Only the admin account can add or remove students.', 'danger')
+                return redirect(url_for('students'))
 
-        action = request.form.get('action')
-        if action == 'add':
-            name = request.form.get('full_name', '').strip()
-            register_number = request.form.get('register_number', '').strip()
-            if not name or not register_number:
-                flash('Please complete all student details.', 'warning')
-            else:
-                success = add_student(name, register_number)
-                if success:
-                    flash('Student added successfully.', 'success')
+            action = request.form.get('action')
+            if action == 'add':
+                name = request.form.get('full_name', '').strip()
+                register_number = request.form.get('register_number', '').strip()
+                if not name or not register_number:
+                    flash('Please complete all student details.', 'warning')
                 else:
-                    flash('This register number already exists.', 'warning')
-        elif action == 'delete':
-            student_id = request.form.get('student_id')
-            if remove_student(student_id):
-                flash('Student removed successfully.', 'success')
-            else:
-                flash('Student could not be removed.', 'danger')
-    student_list = get_all_students()
-    return render_template('students.html', students=student_list)
+                    success = add_student(name, register_number)
+                    if success:
+                        flash('Student added successfully.', 'success')
+                    else:
+                        flash('This register number already exists.', 'warning')
+            elif action == 'delete':
+                student_id = request.form.get('student_id')
+                if remove_student(student_id):
+                    flash('Student removed successfully.', 'success')
+                else:
+                    flash('Student could not be removed.', 'danger')
+        student_list = get_all_students()
+        return render_template('students.html', students=student_list)
+    except Exception:
+        app.logger.exception('Error while processing student request')
+        flash('Unable to process student request right now.', 'danger')
+        return redirect(url_for('students'))
 
 
 @app.route('/attendance', methods=['GET', 'POST'])
 @login_required
 def attendance():
-    if request.method == 'POST':
-        register_number = request.form.get('register_number', '').strip()
-        status = request.form.get('status')
-        if not register_number or status not in {'present', 'absent'}:
-            flash('Please enter a valid register number and status.', 'warning')
-        else:
-            student = get_student_by_register_number(register_number)
-            if student:
-                mark_attendance(student['id'], status)
-                flash(f'{student["full_name"]} marked as {status}.', 'success')
+    try:
+        if request.method == 'POST':
+            register_number = request.form.get('register_number', '').strip()
+            status = request.form.get('status')
+            if not register_number or status not in {'present', 'absent'}:
+                flash('Please enter a valid register number and status.', 'warning')
             else:
-                flash('No student was found with that register number.', 'danger')
+                student = get_student_by_register_number(register_number)
+                if student:
+                    mark_attendance(student['id'], status)
+                    flash(f'{student["full_name"]} marked as {status}.', 'success')
+                else:
+                    flash('No student was found with that register number.', 'danger')
 
-    stats = get_today_stats()
-    records = get_attendance_records(limit=10)
-    return render_template('attendance.html', stats=stats, records=records)
+        stats = get_today_stats()
+        records = get_attendance_records(limit=10)
+        return render_template('attendance.html', stats=stats, records=records)
+    except Exception:
+        app.logger.exception('Error while processing attendance request')
+        flash('Unable to save attendance right now.', 'danger')
+        return redirect(url_for('attendance'))
 
 
 @app.route('/report')
