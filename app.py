@@ -1,6 +1,6 @@
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 
-from auth import create_default_admin, login_required, authenticate_user
+from auth import authenticate_user, create_default_admin, login_required, register_user
 from attendance import get_attendance_records, get_today_stats, mark_attendance
 from config import Config
 from models import init_db
@@ -29,7 +29,7 @@ def login():
         if user:
             session['user_id'] = user['id']
             session['username'] = user['username']
-            flash('Welcome back, Royal Admin!', 'success')
+            flash(f'Welcome back, {user["username"]}!', 'success')
             return redirect(url_for('dashboard'))
         flash('Invalid username or password.', 'danger')
     return render_template('login.html')
@@ -42,6 +42,21 @@ def logout():
     return redirect(url_for('login'))
 
 
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        password = request.form.get('password', '').strip()
+        if not username or not password:
+            flash('Please complete all signup details.', 'warning')
+        elif register_user(username, password):
+            flash('Account created successfully. Please log in.', 'success')
+            return redirect(url_for('login'))
+        else:
+            flash('Username already exists or is invalid.', 'warning')
+    return render_template('signup.html')
+
+
 @app.route('/dashboard')
 @login_required
 def dashboard():
@@ -50,10 +65,18 @@ def dashboard():
     return render_template('dashboard.html', stats=stats, recent=recent)
 
 
+def is_admin_user():
+    return session.get('username') == 'admin'
+
+
 @app.route('/students', methods=['GET', 'POST'])
 @login_required
 def students():
     if request.method == 'POST':
+        if not is_admin_user():
+            flash('Only the admin account can add or remove students.', 'danger')
+            return redirect(url_for('students'))
+
         action = request.form.get('action')
         if action == 'add':
             name = request.form.get('full_name', '').strip()

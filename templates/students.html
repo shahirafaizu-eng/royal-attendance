@@ -9,6 +9,7 @@
 </div>
 
 <div class="grid-two">
+    {% if session.get('username') == 'admin' %}
     <section class="panel">
         <div class="panel-head">
             <h3>Add student</h3>
@@ -24,11 +25,13 @@
             <button type="submit">Add student</button>
         </form>
     </section>
+    {% endif %}
 
     <section class="panel">
         <div class="panel-head">
             <h3>Registered students</h3>
         </div>
+        {% if session.get('username') == 'admin' %}
         <div class="student-list">
             {% for student in students %}
             <div class="student-card">
@@ -46,6 +49,9 @@
             <p>No students added yet.</p>
             {% endfor %}
         </div>
+        {% else %}
+        <p>Only the admin account can add or remove students.</p>
+        {% endif %}
     </section>
 </div>
 {% endblock %}

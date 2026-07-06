@@ -5,6 +5,27 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from models import get_db_connection
 
 
+def register_user(username, password):
+    username = username.strip()
+    password = password.strip()
+    if not username or not password:
+        return False
+
+    conn = get_db_connection()
+    existing = conn.execute('SELECT id FROM users WHERE username = ?', (username,)).fetchone()
+    if existing:
+        conn.close()
+        return False
+
+    conn.execute(
+        'INSERT INTO users (username, password_hash) VALUES (?, ?)',
+        (username, generate_password_hash(password)),
+    )
+    conn.commit()
+    conn.close()
+    return True
+
+
 def create_default_admin():
     conn = get_db_connection()
     existing = conn.execute('SELECT id FROM users WHERE username = ?', ('admin',)).fetchone()
