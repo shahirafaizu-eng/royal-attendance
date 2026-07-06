@@ -1,5 +1,6 @@
 import importlib
 import os
+import sqlite3
 import sys
 import tempfile
 import unittest
@@ -12,7 +13,9 @@ from models import init_db
 
 class AuthTests(unittest.TestCase):
     def setUp(self):
-        self.temp_db = tempfile.NamedTemporaryFile(delete=False, suffix='.db').name
+        temp_file = tempfile.NamedTemporaryFile(delete=False, suffix='.db')
+        temp_file.close()
+        self.temp_db = temp_file.name
         Config.DATABASE_PATH = self.temp_db
         init_db()
         sys.modules.pop('app', None)
@@ -65,6 +68,37 @@ class AuthTests(unittest.TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertIn('No student was found with that register number.', response.get_data(as_text=True))
+
+    def test_init_db_adds_missing_student_columns_for_older_database(self):
+        conn = sqlite3.connect(self.temp_db)
+        conn.execute(
+            '''
+            CREATE TABLE IF NOT EXISTS users (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL
+            )
+            '''
+        )
+        conn.execute(
+            '''
+            CREATE TABLE IF NOT EXISTS students (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                full_name TEXT NOT NULL,
+                created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+            )
+            '''
+        )
+        conn.commit()
+        conn.close()
+
+        init_db()
+
+        conn = sqlite3.connect(self.temp_db)
+        columns = [row[1] for row in conn.execute("PRAGMA table_info(students)")]
+        conn.close()
+
+        self.assertIn('register_number', columns)
 
 
 if __name__ == '__main__':

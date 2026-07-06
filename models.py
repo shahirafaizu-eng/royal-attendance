@@ -9,6 +9,11 @@ def get_db_connection():
     return conn
 
 
+def _table_has_column(conn, table_name, column_name):
+    columns = [row[1] for row in conn.execute(f'PRAGMA table_info({table_name})')]
+    return column_name in columns
+
+
 def init_db():
     conn = get_db_connection()
     conn.execute(
@@ -30,6 +35,17 @@ def init_db():
         )
         '''
     )
+
+    if not _table_has_column(conn, 'students', 'register_number'):
+        conn.execute('ALTER TABLE students ADD COLUMN register_number TEXT')
+    if not _table_has_column(conn, 'students', 'created_at'):
+        conn.execute('ALTER TABLE students ADD COLUMN created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP')
+
+    try:
+        conn.execute('CREATE UNIQUE INDEX IF NOT EXISTS idx_students_register_number ON students(register_number)')
+    except sqlite3.IntegrityError:
+        pass
+
     conn.execute(
         '''
         CREATE TABLE IF NOT EXISTS attendance (
