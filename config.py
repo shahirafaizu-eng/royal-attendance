@@ -1,8 +1,11 @@
 import os
+from datetime import timedelta
 
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'royal-attendance-secret-key')
+    # Session lifetime for 'remember me' behavior; users stay logged in until logout
+    PERMANENT_SESSION_LIFETIME = timedelta(days=30)
     # When deployed to Vercel (serverless), the project root is read-only.
     # Use the writable temporary directory when running under Vercel.
     if os.environ.get('VERCEL') or os.environ.get('NOW'):

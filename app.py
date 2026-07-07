@@ -88,6 +88,8 @@ def login():
         if user:
             session['user_id'] = user['id']
             session['username'] = user['username']
+            # make the session permanent so user stays logged in until they logout
+            session.permanent = True
             flash(f'Welcome back, {user["username"]}!', 'success')
             return redirect(url_for('dashboard'))
         flash('Invalid username or password.', 'danger')
