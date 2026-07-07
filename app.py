@@ -21,8 +21,16 @@ file_handler.setFormatter(
 )
 app.logger.addHandler(file_handler)
 
-init_db()
-create_default_admin()
+try:
+    init_db()
+except Exception:
+    app.logger.exception('Database initialization failed at startup')
+
+# Ensure admin user exists where possible. Log failures but do not crash
+try:
+    create_default_admin()
+except Exception:
+    app.logger.exception('Creating default admin failed at startup')
 
 
 @app.errorhandler(HTTPException)
