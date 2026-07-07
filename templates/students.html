@@ -31,7 +31,6 @@
         <div class="panel-head">
             <h3>Registered students</h3>
         </div>
-        {% if session.get('username') == 'admin' %}
         <div class="student-list">
             {% for student in students %}
             <div class="student-card">
@@ -39,19 +38,18 @@
                     <strong>{{ student.full_name }}</strong>
                     <p>{{ student.register_number }}</p>
                 </div>
+                {% if session.get('username') == 'admin' %}
                 <form method="post">
                     <input type="hidden" name="action" value="delete">
                     <input type="hidden" name="student_id" value="{{ student.id }}">
                     <button type="submit" class="danger-btn">Remove</button>
                 </form>
+                {% endif %}
             </div>
             {% else %}
             <p>No students added yet.</p>
             {% endfor %}
         </div>
-        {% else %}
-        <p>Only the admin account can add or remove students.</p>
-        {% endif %}
     </section>
 </div>
 {% endblock %}
