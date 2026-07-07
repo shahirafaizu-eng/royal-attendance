@@ -1,5 +1,7 @@
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from werkzeug.exceptions import HTTPException
+import logging
+from logging import FileHandler
 
 from auth import authenticate_user, create_default_admin, login_required, register_user
 from attendance import get_attendance_records, get_today_stats, mark_attendance
@@ -9,6 +11,15 @@ from student import add_student, get_all_students, get_student_by_register_numbe
 
 app = Flask(__name__)
 app.config.from_object(Config)
+
+# log errors to a file for easier debugging in environments where console
+# output may not be available. The file is written to the project root.
+file_handler = FileHandler('error.log')
+file_handler.setLevel(logging.ERROR)
+file_handler.setFormatter(
+    logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+)
+app.logger.addHandler(file_handler)
 
 init_db()
 create_default_admin()
