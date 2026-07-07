@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-head">
+    <div>
+        <p class="eyebrow">Admin</p>
+        <h2>Link user to student</h2>
+    </div>
+    <div></div>
+</div>
+
+<section class="panel">
+    <div class="panel-head"><h3>Link</h3></div>
+    <form method="post" class="form-stack">
+        <label>Username
+            <input type="text" name="username" required>
+        </label>
+        <label>Register number
+            <input type="text" name="register_number" required>
+        </label>
+        <button type="submit">Link</button>
+    </form>
+</section>
+
+{% endblock %}

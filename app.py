@@ -5,7 +5,7 @@ from logging import FileHandler
 import os
 import tempfile
 
-from auth import authenticate_user, create_default_admin, login_required, register_user
+from auth import authenticate_user, create_default_admin, login_required, register_user, link_user_to_student
 from attendance import get_attendance_records, get_today_stats, mark_attendance
 from config import Config
 from models import init_db
@@ -43,6 +43,13 @@ try:
     create_default_admin()
 except Exception:
     app.logger.exception('Creating default admin failed at startup')
+
+# Attempt to auto-link users to students by username==register_number
+try:
+    from models import auto_link_users_by_username
+    auto_link_users_by_username()
+except Exception:
+    app.logger.exception('Auto-linking users to students failed at startup')
 
 
 @app.errorhandler(HTTPException)
@@ -161,8 +168,13 @@ def students():
 def attendance():
     try:
         if request.method == 'POST':
-            register_number = request.form.get('register_number', '').strip()
             status = request.form.get('status')
+            # If not admin, force the register number to the logged-in username
+            if not is_admin_user():
+                register_number = session.get('username', '')
+            else:
+                register_number = request.form.get('register_number', '').strip()
+
             if not register_number or status not in {'present', 'absent'}:
                 flash('Please enter a valid register number and status.', 'warning')
             else:
@@ -171,7 +183,10 @@ def attendance():
                     mark_attendance(student['id'], status)
                     flash(f'{student["full_name"]} marked as {status}.', 'success')
                 else:
-                    flash('No student was found with that register number.', 'danger')
+                    if is_admin_user():
+                        flash('No student was found with that register number.', 'danger')
+                    else:
+                        flash('Your account is not linked to a student record.', 'danger')
 
         stats = get_today_stats()
         records = get_attendance_records(limit=10)
@@ -187,6 +202,25 @@ def attendance():
 def report():
     records = get_attendance_records(limit=50)
     return render_template('report.html', records=records)
+
+
+@app.route('/link', methods=['GET', 'POST'])
+@login_required
+def link():
+    if not is_admin_user():
+        flash('Only admin can access this page.', 'danger')
+        return redirect(url_for('dashboard'))
+    if request.method == 'POST':
+        username = request.form.get('username', '').strip()
+        register_number = request.form.get('register_number', '').strip()
+        if not username or not register_number:
+            flash('Please provide both username and register number.', 'warning')
+        else:
+            if link_user_to_student(username, register_number):
+                flash('User linked to student successfully.', 'success')
+            else:
+                flash('Could not link user to student. Check values.', 'danger')
+    return render_template('link.html')
 
 
 @app.route('/profile')

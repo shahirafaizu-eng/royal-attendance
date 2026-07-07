@@ -63,3 +63,133 @@ Traceback (most recent call last):
   File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
     raise effect
 Exception: boom
+2026-07-07 20:30:15,662 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:154]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 140, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:30:15,662 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:154]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 140, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:30:15,662 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:154]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 140, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:30:15,662 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:154]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 140, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:30:15,662 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:154]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 140, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:37:04,935 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:161]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 147, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:37:04,935 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:161]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 147, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:37:04,935 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:161]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 147, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:37:04,935 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:161]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 147, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom
+2026-07-07 20:37:04,935 ERROR: Error while processing student request [in C:\Users\lenovo\OneDrive\Desktop\attendence\app.py:161]
+Traceback (most recent call last):
+  File "C:\Users\lenovo\OneDrive\Desktop\attendence\app.py", line 147, in students
+    success = add_student(name, register_number)
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1176, in __call__
+    return self._mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1180, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\lenovo\AppData\Local\Python\pythoncore-3.14-64\Lib\unittest\mock.py", line 1241, in _execute_mock_call
+    raise effect
+Exception: boom

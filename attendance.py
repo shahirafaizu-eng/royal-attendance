@@ -37,7 +37,7 @@ def get_attendance_records(limit=20):
         '''
         SELECT a.id, a.attendance_date, a.status, a.marked_at, s.full_name, s.register_number
         FROM attendance a
-        JOIN students s ON s.id = a.student_id
+        LEFT JOIN students s ON s.id = a.student_id
         ORDER BY a.id DESC
         LIMIT ?
         ''',

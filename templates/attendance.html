@@ -15,9 +15,15 @@
             <h3>Mark attendance</h3>
         </div>
         <form method="post" class="form-stack">
+            {% if session.get('username') == 'admin' %}
             <label>Register number
                 <input type="text" name="register_number" required>
             </label>
+            {% else %}
+            <label>Your register number
+                <input type="text" name="register_number" value="{{ session.get('username') }}" readonly>
+            </label>
+            {% endif %}
             <label>Status
                 <select name="status" required>
                     <option value="present">Present</option>
