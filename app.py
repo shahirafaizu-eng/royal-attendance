@@ -2,6 +2,8 @@ from flask import Flask, flash, redirect, render_template, request, session, url
 from werkzeug.exceptions import HTTPException
 import logging
 from logging import FileHandler
+import os
+import tempfile
 
 from auth import authenticate_user, create_default_admin, login_required, register_user
 from attendance import get_attendance_records, get_today_stats, mark_attendance
@@ -14,12 +16,22 @@ app.config.from_object(Config)
 
 # log errors to a file for easier debugging in environments where console
 # output may not be available. The file is written to the project root.
-file_handler = FileHandler('error.log')
-file_handler.setLevel(logging.ERROR)
-file_handler.setFormatter(
-    logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
-)
-app.logger.addHandler(file_handler)
+try:
+    # Prefer a writable location for logs when running in serverless (Vercel)
+    if os.environ.get('VERCEL') or os.environ.get('NOW'):
+        log_path = os.environ.get('ERROR_LOG_PATH', os.path.join(tempfile.gettempdir(), 'error.log'))
+    else:
+        log_path = os.environ.get('ERROR_LOG_PATH', 'error.log')
+
+    file_handler = FileHandler(log_path)
+    file_handler.setLevel(logging.ERROR)
+    file_handler.setFormatter(
+        logging.Formatter('%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]')
+    )
+    app.logger.addHandler(file_handler)
+except Exception:
+    # If logging setup fails (e.g., read-only filesystem), continue without file logging
+    app.logger.exception('Failed to configure file logging')
 
 try:
     init_db()
